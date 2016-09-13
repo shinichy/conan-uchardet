@@ -1,6 +1,8 @@
 from conans import ConanFile, CMake
 from conans.tools import download, unzip
 import os
+import shutil
+import textwrap
 
 class UchardetConan( ConanFile ):
   name = 'uchardet'
@@ -14,6 +16,16 @@ class UchardetConan( ConanFile ):
 
   def source( self ):
     self.run('git clone https://anongit.freedesktop.org/git/uchardet/uchardet.git --branch %s --depth 1' % self.tag)
+    shutil.move( '%s/CMakeLists.txt' % self.folder, '%s/CMakeListsOriginal.cmake' % self.folder )
+
+    with open( '%s/CMakeLists.txt' % self.folder, 'w' ) as f:
+      f.write( textwrap.dedent( '''\
+        cmake_minimum_required( VERSION 2.8 )
+        project( conanuchardet )
+        include( ${CMAKE_CURRENT_SOURCE_DIR}/../conanbuildinfo.cmake )
+        conan_basic_setup()
+        include( "CMakeListsOriginal.cmake" )
+        ''' ) )
 
   def build( self ):
     cmake = CMake( self.settings )
