@@ -17,7 +17,7 @@ class UchardetConan( ConanFile ):
 
   def build( self ):
     cmake = CMake( self.settings )
-    flags = '-DCMAKE_OSX_DEPLOYMENT_TARGET=10.7 -DCMAKE_MACOSX_RPATH=ON -DBUILD_BINARY=OFF'
+    flags = '-DCMAKE_OSX_DEPLOYMENT_TARGET=10.7 -DCMAKE_MACOSX_RPATH=ON -DBUILD_BINARY=OFF -DBUILD_SHARED_LIBS=OFF'
     self.run('cd %s && mkdir _build' % self.folder)
     configure_command = 'cd %s/_build && cmake .. %s' % ( self.folder, cmake.command_line )
     self.output.info( 'Configure with: %s' % configure_command )
