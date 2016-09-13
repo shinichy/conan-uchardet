@@ -7,9 +7,11 @@ import textwrap
 class UchardetConan( ConanFile ):
   name = 'uchardet'
   version = '0.0.6'
-  license = 'MOZILLA PUBLIC LICENSE Version 1.1 https://cgit.freedesktop.org/uchardet/uchardet/plain/COPYING'
+  license = 'https://cgit.freedesktop.org/uchardet/uchardet/plain/COPYING'
   url = 'https://github.com/silkedit/conan-uchardet'
   settings = 'os', 'compiler', 'build_type', 'arch'
+  options = {"shared": [True, False]}
+  default_options = "shared=False"
   generators = 'cmake'
   folder = '%s' % name
   tag = 'v%s' % version
@@ -29,7 +31,8 @@ class UchardetConan( ConanFile ):
 
   def build( self ):
     cmake = CMake( self.settings )
-    flags = '-DCMAKE_OSX_DEPLOYMENT_TARGET=10.7 -DCMAKE_MACOSX_RPATH=ON -DBUILD_BINARY=OFF -DBUILD_SHARED_LIBS=OFF'
+    flags = '-DBUILD_SHARED_LIBS=ON -DBUILD_STATIC=OFF' if self.options.shared else '-DBUILD_SHARED_LIBS=OFF -DBUILD_STATIC=ON'
+    flags += ' -DCMAKE_OSX_DEPLOYMENT_TARGET=10.7 -DCMAKE_MACOSX_RPATH=ON -DBUILD_BINARY=OFF'
     self.run('cd %s && mkdir _build' % self.folder)
     configure_command = 'cd %s/_build && cmake .. %s' % ( self.folder, cmake.command_line )
     self.output.info( 'Configure with: %s' % configure_command )
@@ -41,6 +44,7 @@ class UchardetConan( ConanFile ):
     self.copy( '*uchardet*.lib', dst='lib', keep_path=False )
     self.copy( '*uchardet*.dll', dst='bin', keep_path=False )
     self.copy( '*uchardet*.so', dst='lib', keep_path=False )
+    self.copy( '*uchardet.dylib', dst='lib', keep_path=False )
     self.copy( '*uchardet*.a', dst='lib', keep_path=False )
 
   def package_info( self ):
