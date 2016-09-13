@@ -9,13 +9,11 @@ class UchardetConan( ConanFile ):
   url = 'https://github.com/silkedit/conan-uchardet'
   settings = 'os', 'compiler', 'build_type', 'arch'
   generators = 'cmake'
-  folder = '%s-%s' % ( name, version )
+  folder = '%s' % name
+  tag = 'v%s' % version
 
   def source( self ):
-    zip_name = 'uchardet-%s.zip' % ( self.version )
-    download( 'https://cgit.freedesktop.org/uchardet/uchardet/snapshot/%s' % zip_name, zip_name )
-    unzip( zip_name )
-    os.unlink( zip_name )
+    self.run('git clone https://anongit.freedesktop.org/git/uchardet/uchardet.git --branch %s --depth 1' % self.tag)
 
   def build( self ):
     cmake = CMake( self.settings )
