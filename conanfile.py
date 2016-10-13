@@ -8,7 +8,7 @@ class UchardetConan( ConanFile ):
   name = 'uchardet'
   version = '0.0.6'
   license = 'https://cgit.freedesktop.org/uchardet/uchardet/plain/COPYING'
-  url = 'https://github.com/silkedit/conan-uchardet'
+  url = 'https://github.com/shinichy/conan-uchardet'
   settings = 'os', 'compiler', 'build_type', 'arch'
   options = {"shared": [True, False]}
   default_options = "shared=False"

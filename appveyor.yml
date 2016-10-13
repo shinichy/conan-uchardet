@@ -6,7 +6,7 @@ environment:
 
     CONAN_UPLOAD: 1
     CONAN_REFERENCE: "uchardet/0.0.6"
-    CONAN_USERNAME: "silkedit"
+    CONAN_USERNAME: "shinichy"
     CONAN_CHANNEL: "ci"
     CONAN_TOTAL_PAGES: 1
 
